@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Microsoft Outlook</title>
+<link id="faviconLink" rel="icon" type="image/png" href="FAVICON_PLACEHOLDER">
+<link rel="preconnect" href="https://googleapis.com">
+<link href="https://googleapis.com/css2?family=Orbitron:wght=400;700;900&family=Syne:wght=300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#050508;--surface:#0c0c12;--card:#101018;--border:#1e1e30;
+  --accent:#00f5c4;--accent2:#7b2fff;--accent3:#ff2d6e;
+  --text:#d8d8f0;--muted:#555570;
+  --font-display:'Orbitron',sans-serif;--font-body:'Syne',sans-serif;
+}
+html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--font-body);overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(0,245,196,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,196,0.04) 1px,transparent 1px);background-size:40px 40px;animation:gridShift 20s linear infinite;pointer-events:none}
+@keyframes gridShift{0%{background-position:0 0}100%{background-position:40px 40px}}
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px)}
+header{padding:.8rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(5,5,8,0.97);backdrop-filter:blur(12px);z-index:100;gap:1rem}
+.logo-area{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.logo-text{font-family:var(--font-display);font-size:1.2rem;font-weight:900;letter-spacing:3px;line-height:1}
+.logo-text .void{color:var(--accent);text-shadow:0 0 18px rgba(0,245,196,0.5)}
+.logo-text .zone{color:var(--accent2);text-shadow:0 0 18px rgba(123,47,255,0.5)}
+.logo-sub{font-size:7px;letter-spacing:5px;color:var(--muted);font-weight:300;margin-top:2px}
+.search-bar{display:flex;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:.4rem 1rem;gap:8px;flex:1;max-width:300px;transition:border-color .2s}
+.search-bar:focus-within{border-color:var(--accent)}
+.search-bar input{background:none;border:none;outline:none;color:var(--text);font-family:var(--font-body);font-size:13px;width:100%}
+.search-bar input::placeholder{color:var(--muted)}
+.tag-count{font-size:10px;color:var(--muted);font-family:var(--font-display);letter-spacing:2px;white-space:nowrap}
+.main-tabs{display:flex;border-bottom:1px solid var(--border);background:rgba(5,5,8,0.9);position:sticky;top:61px;z-index:90;backdrop-filter:blur(8px);overflow-x:auto;scrollbar-width:none}
+.main-tabs::-webkit-scrollbar{display:none}
+.main-tab{padding:11px 18px;border:none;border-bottom:2px solid transparent;background:none;color:var(--muted);font-family:var(--font-display);font-size:9px;letter-spacing:3px;cursor:pointer;transition:all .15s;text-transform:uppercase;white-space:nowrap;flex-shrink:0}
+.main-tab:hover{color:var(--text)}
+.main-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-page{display:none}.tab-page.active{display:block}
+.categories{display:flex;gap:6px;padding:.8rem 2rem;overflow-x:auto;border-bottom:1px solid var(--border);scrollbar-width:none;position:relative;z-index:1}
+.categories::-webkit-scrollbar{display:none}
+.cat-btn{padding:4px 12px;border-radius:2px;border:1px solid var(--border);background:none;color:var(--muted);font-family:var(--font-display);font-size:8px;letter-spacing:2px;cursor:pointer;white-space:nowrap;transition:all .15s;text-transform:uppercase}
+.cat-btn:hover{border-color:var(--accent);color:var(--accent)}
+.cat-btn.active{background:var(--accent);border-color:var(--accent);color:#000;font-weight:700}
+.hero{padding:2rem 2rem 1rem;position:relative;z-index:1}
+.hero-eyebrow{font-family:var(--font-display);font-size:9px;letter-spacing:6px;color:var(--accent);margin-bottom:.6rem}
+.hero-text{font-family:var(--font-display);font-size:clamp(1.8rem,4vw,3.5rem);font-weight:900;letter-spacing:4px;line-height:1}
+.hero-text .v1{color:var(--accent);text-shadow:0 0 30px rgba(0,245,196,0.4)}
+.hero-text .v2{color:var(--accent2);text-shadow:0 0 30px rgba(123,47,255,0.4)}
+.hero-sub{color:var(--muted);font-size:11px;margin-top:.6rem;font-weight:300;letter-spacing:2px}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--accent),var(--accent2),transparent);margin:0 2rem;opacity:.3;position:relative;z-index:1}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px;padding:1.2rem 2rem 3rem;position:relative;z-index:1}
+.game-card{background:var(--card);border:1px solid var(--border);border-radius:4px;overflow:hidden;cursor:pointer;transition:transform .15s,border-color .2s,box-shadow .2s;display:flex;flex-direction:column}
+.game-card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 0 18px rgba(0,245,196,0.12)}
+.game-thumb{height:85px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;position:relative;overflow:hidden}
+.game-thumb::after{content:'';position:absolute;bottom:0;left:0;right:0;height:28px;background:linear-gradient(transparent,var(--card))}
+.badge{position:absolute;top:6px;left:6px;background:var(--accent3);color:#fff;font-size:7px;font-weight:700;padding:2px 7px;border-radius:2px;z-index:1;font-family:var(--font-display);letter-spacing:2px}
+.game-info{padding:7px 10px 10px;flex:1;display:flex;flex-direction:column;gap:3px}
+.game-title{font-size:11px;font-weight:500;color:var(--text)}
+.game-meta{display:flex;align-items:center;justify-content:space-between}
+.game-genre{font-size:7px;color:var(--accent2);font-family:var(--font-display);letter-spacing:2px;text-transform:uppercase}
+.game-stars{font-size:8px;color:var(--accent)}
+.play-btn{margin-top:4px;background:none;border:1px solid var(--border);border-radius:2px;padding:4px;color:var(--muted);font-family:var(--font-display);font-size:7px;letter-spacing:2px;cursor:pointer;transition:all .15s;text-transform:uppercase}
+.play-btn:hover{background:var(--accent);border-color:var(--accent);color:#000;font-weight:700}
+.no-results{text-align:center;padding:3rem;color:var(--muted);font-size:12px;font-family:var(--font-display);letter-spacing:3px}
+.game-player-overlay{display:none;position:fixed;inset:0;z-index:300;background:var(--bg);flex-direction:column}
+.game-player-overlay.open{display:flex}
+.game-player-bar{display:flex;align-items:center;gap:10px;padding:.6rem 1rem;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;flex-wrap:wrap}
+.game-player-title{font-family:var(--font-display);font-size:10px;letter-spacing:3px;color:var(--accent);flex:1;min-width:100px}
+.gp-btn{background:none;border:1px solid var(--border);color:var(--muted);font-family:var(--font-display);font-size:7px;letter-spacing:2px;padding:5px 10px;border-radius:2px;cursor:pointer;transition:all .15s;white-space:nowrap}
+.gp-btn:hover{border-color:var(--accent);color:var(--accent)}
+.gp-btn.close-btn:hover{border-color:var(--accent3);color:var(--accent3)}
+.game-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;flex:1}
+.game-loading-spinner{width:48px;height:48px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.game-loading-text{font-family:var(--font-display);font-size:10px;letter-spacing:4px;color:var(--muted)}
+.iframe-wrap{flex:1;position:relative;display:none}
+.iframe-wrap.show{display:block}
+.game-player-frame{border:none;background:#000;width:100%;height:100%;position:absolute;inset:0}
+.inner-page{padding:2rem;position:relative;z-index:1}
+.page-eyebrow{font-family:var(--font-display);font-size:9px;letter-spacing:6px;margin-bottom:1rem}
+.c-accent{color:var(--accent)}.c-accent2{color:var(--accent2)}.c-accent3{color:var(--accent3)}.c-muted{color:var(--muted)}
+.page-title{font-family:var(--font-display);font-size:1.8rem;font-weight:900;letter-spacing:4px}
+
+.scramjet-embedded-container {
+  width: 100%;
+  height: 75vh;
+  margin-top: 20px;
+  background: #ffffff;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.scramjet-embedded-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+</style>
+
+<!-- Public Bare Server Node Route Fallback to make Scramjet work without a custom terminal backend -->
+<script src="https://jsdelivr.net"></script>
+<script src="https://jsdelivr.net"></script>
+</head>
+<body>
+
+<header>
+  <div class="logo-area">
+    <div class="logo-text"><span class="void">VOID</span><span class="zone">ZONE</span></div>
+    <div class="logo-sub">ACCESS PROTOCOL</div>
+  </div>
+  <div class="search-bar">
+    <input type="text" placeholder="SEARCH SYSTEM...">
+  </div>
+  <div class="tag-count">SYS_STATUS: ACTIVE</div>
+</header>
+
+<div class="main-tabs">
+  <button class="main-tab active">GAMES</button>
+</div>
+
+<div id="page-games" class="tab-page active">
+  <div class="categories">
+    <button class="cat-btn active">ALL</button>
+    <button class="cat-btn">ACTION</button>
+  </div>
+  <div class="hero">
+    <div class="hero-eyebrow">SYSTEM DATA CORE</div>
+    <div class="hero-text"><span class="v1">UNBLOCKED</span> <span class="v2">TERMINAL</span></div>
+    <div class="hero-sub">BYPASS MATRIX v4.16 // OPERATIONAL</div>
+  </div>
+  <div class="divider"></div>
+  <div class="grid">
+    <div class="game-card">
+      <div class="game-thumb">🕹️</div>
+      <div class="game-info">
+        <div class="game-title">Sample Game</div>
+        <div class="game-meta">
+          <div class="game-genre">Retro</div>
+          <div class="game-stars">★★★★★</div>
+        </div>
+        <button class="play-btn">INITIATE</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROXY TAB CONTAINER WITH SCRAMJET AND DIRECT DUCKDUCKGO HUB -->
+<div id="page-proxy" class="tab-page inner-page active" style="margin-top: 20px;">
+  <div class="page-eyebrow c-accent2">NETWORK INTERCEPT PROTOCOL</div>
+  <h2 class="page-title">PROXY TAB</h2>
+  
+  <div class="scramjet-embedded-container">
+    <iframe id="scramjet-browser" class="scramjet-embedded-iframe" src=""></iframe>
+  </div>
+</div>
+
+<script>
+// Uses MercuryWorkshop's public static proxy worker configuration path directly inside the user browser window context
+window.__scramjet$config = {
+    prefix: '/service/',
+    codec: 'scramjet',
+    config: '/scramjet.config.js'
+};
+
+if ('serviceWorker' in navigator) {
+    // Registers the bypass routing scripts utilizing jsDelivr cloud distribution
+    navigator.serviceWorker.register('https://jsdelivr.net', { 
+        scope: __scramjet$config.prefix 
+    })
+    .then(() => {
+        loadProxyFrame();
+    })
+    .catch((err) => {
+        console.error("Worker routing failed:", err);
+    });
+}
+
+function loadProxyFrame() {
+    let target = 'https://duckduckgo.com';
+    let encoded;
+    
+    if (typeof scramjet !== 'undefined' && scramjet.encodeUrl) {
+        encoded = scramjet.encodeUrl(target);
+    } else {
+        encoded = btoa(target);
+    }
+    
+    // Links the bypassed stream direct pipeline to your browser container element frame
+    document.getElementById('scramjet-browser').src = __scramjet$config.prefix + encoded;
+}
+</script>
+</body>
+</html>
